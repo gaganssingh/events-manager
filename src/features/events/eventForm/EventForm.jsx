@@ -3,7 +3,13 @@ import { useState } from "react";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
 import Input from "../../../app/ui/Input";
 
-const EventForm = ({ setFormOpen, setEvents, createEvent, selectedEvent }) => {
+const EventForm = ({
+  setFormOpen,
+  setEvents,
+  createEvent,
+  selectedEvent,
+  updateEvent,
+}) => {
   const [values, setValues] = useState(
     selectedEvent ?? {
       title: "",
@@ -23,7 +29,10 @@ const EventForm = ({ setFormOpen, setEvents, createEvent, selectedEvent }) => {
       attendees: [],
       ...values,
     };
-    createEvent(eventData);
+
+    selectedEvent
+      ? updateEvent({ ...selectedEvent, ...values })
+      : createEvent(eventData);
     setFormOpen(false);
   };
 
