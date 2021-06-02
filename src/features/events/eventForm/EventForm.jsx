@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
+import Input from "../../../app/ui/Input";
 
 const EventForm = ({ setFormOpen, setEvents }) => {
   const [values, setValues] = useState({
@@ -29,60 +30,54 @@ const EventForm = ({ setFormOpen, setEvents }) => {
     <Segment clearing>
       <Header content="Create a new event" />
       <Form onSubmit={handleFormSubmit}>
-        <Form.Field>
-          <input
-            name="title"
-            type="text"
-            placeholder="Title"
-            value={values.title}
-            onChange={(e) => handleInputChange(e)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <input
-            name="category"
-            type="text"
-            placeholder="Category"
-            value={values.category}
-            onChange={(e) => handleInputChange(e)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <input
-            name="description"
-            type="text"
-            placeholder="Description"
-            value={values.description}
-            onChange={(e) => handleInputChange(e)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <input
-            name="city"
-            type="text"
-            placeholder="City"
-            value={values.city}
-            onChange={(e) => handleInputChange(e)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <input
-            name="venue"
-            type="text"
-            placeholder="Venue"
-            value={values.venue}
-            onChange={(e) => handleInputChange(e)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <input
-            name="date"
-            type="date"
-            placeholder="Date"
-            value={values.date}
-            onChange={(e) => handleInputChange(e)}
-          />
-        </Form.Field>
+        <Input
+          name="title"
+          type="text"
+          placeholder="Title"
+          value={values.title}
+          handleInputChange={handleInputChange}
+        />
+
+        <Input
+          name="category"
+          type="text"
+          placeholder="Category"
+          value={values.category}
+          handleInputChange={handleInputChange}
+        />
+
+        <Input
+          name="description"
+          type="text"
+          placeholder="Description"
+          value={values.description}
+          handleInputChange={handleInputChange}
+        />
+
+        <Input
+          name="city"
+          type="text"
+          placeholder="City"
+          value={values.city}
+          handleInputChange={handleInputChange}
+        />
+
+        <Input
+          name="venue"
+          type="text"
+          placeholder="Venue"
+          value={values.venue}
+          handleInputChange={handleInputChange}
+        />
+
+        <Input
+          name="date"
+          type="date"
+          placeholder="Date"
+          value={values.date}
+          handleInputChange={handleInputChange}
+        />
+
         <Button type="submit" floated="right" positive content="Submit" />
         <Button floated="right" content="Cancel" onClick={formCloseHandler} />
       </Form>
