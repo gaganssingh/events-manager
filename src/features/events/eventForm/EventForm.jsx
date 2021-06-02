@@ -3,15 +3,17 @@ import { useState } from "react";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
 import Input from "../../../app/ui/Input";
 
-const EventForm = ({ setFormOpen, setEvents, createEvent }) => {
-  const [values, setValues] = useState({
-    title: "",
-    category: "",
-    description: "",
-    city: "",
-    venue: "",
-    date: "",
-  });
+const EventForm = ({ setFormOpen, setEvents, createEvent, selectedEvent }) => {
+  const [values, setValues] = useState(
+    selectedEvent ?? {
+      title: "",
+      category: "",
+      description: "",
+      city: "",
+      venue: "",
+      date: "",
+    }
+  );
 
   const handleFormSubmit = (e) => {
     const eventData = {
@@ -37,7 +39,7 @@ const EventForm = ({ setFormOpen, setEvents, createEvent }) => {
 
   return (
     <Segment clearing>
-      <Header content="Create a new event" />
+      <Header content={!selectedEvent ? "Create a new event" : "Edit event"} />
       <Form onSubmit={handleFormSubmit}>
         <Input
           name="title"
