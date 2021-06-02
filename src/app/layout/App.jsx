@@ -1,7 +1,10 @@
+import EventDashboard from "../../features/events/eventDashboard/EventDashboard";
+
 const App = () => {
   return (
-    <div className="App">
+    <div>
       <h1>Events Manager</h1>
+      <EventDashboard />
     </div>
   );
 };
