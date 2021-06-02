@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+import App from "./app/layout/App.jsx";
+import "./app/layout/styles.css";
 
 const rootEl = document.getElementById("root");
 
@@ -10,7 +10,7 @@ const render = () => {
 };
 
 if (module.hot) {
-  module.hot.accept("./App", () => setTimeout(render));
+  module.hot.accept("./app/layout/App.jsx", () => setTimeout(render));
 }
 
 render();
