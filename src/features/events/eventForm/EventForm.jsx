@@ -1,5 +1,6 @@
 import cuid from "cuid";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
 import Input from "../../../app/ui/Input";
 
@@ -39,11 +40,6 @@ const EventForm = ({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
-  };
-
-  const formCloseHandler = (e) => {
-    e.preventDefault();
-    setFormOpen(false);
   };
 
   return (
@@ -99,7 +95,7 @@ const EventForm = ({
         />
 
         <Button type="submit" floated="right" positive content="Submit" />
-        <Button floated="right" content="Cancel" onClick={formCloseHandler} />
+        <Button as={Link} to="/events" floated="right" content="Cancel" />
       </Form>
     </Segment>
   );
