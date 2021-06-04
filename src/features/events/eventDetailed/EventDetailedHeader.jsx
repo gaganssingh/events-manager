@@ -16,6 +16,7 @@ const eventImageTextStyle = {
 
 const EventDetailedHeader = ({ event }) => {
   const { title, date, hostedBy, id } = event;
+
   return (
     <Segment.Group>
       <Segment basic attached="top" style={{ padding: "0" }}>

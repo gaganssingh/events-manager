@@ -6,7 +6,7 @@ import cuid from "cuid";
 import { createEvent, updateEvent } from "../eventActions";
 import Input from "../../../app/ui/Input";
 
-const EventForm = ({ match }) => {
+const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
 
   const eventId = match.params.id;
@@ -37,6 +37,9 @@ const EventForm = ({ match }) => {
     selectedEvent
       ? dispatch(updateEvent({ ...selectedEvent, ...values }))
       : dispatch(createEvent(eventData));
+
+    // After creating/updating event, send user to all events page
+    history.push("/events");
   };
 
   const handleInputChange = (e) => {

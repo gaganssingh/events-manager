@@ -2,6 +2,7 @@ import { Button, Segment, Grid, Icon } from "semantic-ui-react";
 
 const EventDetailedInfo = ({ event }) => {
   const { description, date, venue } = event;
+
   return (
     <Segment.Group>
       <Segment attached="top">
