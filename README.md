@@ -1,4 +1,7 @@
-# Events Manager App
+# meetups (Events Manager App)
+
+### Features
 
 - React (v.17)
-- Semantic UI
+- UI created using Semantic UI React
+- State Management using Redux
