@@ -6,6 +6,7 @@ import EventDashboard from "../../features/events/eventDashboard/EventDashboard"
 import NavBar from "../../features/nav/NavBar";
 import EventDetailedPage from "../../features/events/eventDetailed/EventDetailedPage";
 import EventForm from "../../features/events/eventForm/EventForm";
+import Sandbox from "../../features/sandbox/Sandbox";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <NavBar />
             <Container className="main">
               <Route path="/events" exact component={EventDashboard} />
+              <Route path="/sandbox" exact component={Sandbox} />
               <Route path="/events/:id" component={EventDetailedPage} />
               <Route
                 path={["/createEvent", "/manage/:id"]}
