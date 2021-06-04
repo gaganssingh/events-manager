@@ -15,7 +15,7 @@ const eventImageTextStyle = {
 };
 
 const EventDetailedHeader = ({ event }) => {
-  const { title, date, hostedBy } = event;
+  const { title, date, hostedBy, id } = event;
   return (
     <Segment.Group>
       <Segment basic attached="top" style={{ padding: "0" }}>
@@ -48,7 +48,7 @@ const EventDetailedHeader = ({ event }) => {
         <Button>Cancel My Place</Button>
         <Button color="teal">JOIN THIS EVENT</Button>
 
-        <Button as={Link} to={`/manage/`} color="orange" floated="right">
+        <Button as={Link} to={`/manage/${id}`} color="orange" floated="right">
           Manage Event
         </Button>
       </Segment>

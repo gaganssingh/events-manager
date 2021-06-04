@@ -5,8 +5,8 @@ import EventDetailedHeader from "./EventDetailedHeader";
 import EventDetailedInfo from "./EventDetailedInfo";
 import EventDetailedSidebar from "./EventDetailedSidebar";
 
-const EventDetailedPage = (location) => {
-  const eventId = location.match.params.id;
+const EventDetailedPage = ({ match }) => {
+  const eventId = match.params.id;
   const event = useSelector((state) =>
     state.event.events.find((e) => e.id === eventId)
   );
