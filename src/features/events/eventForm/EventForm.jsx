@@ -1,11 +1,14 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Header, Segment, FormField, Label } from "semantic-ui-react";
+import { Button, Header, Segment } from "semantic-ui-react";
 import cuid from "cuid";
 import { createEvent, updateEvent } from "../eventActions";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import FormInput from "../../../app/common/form/FormInput";
+import FormTextArea from "../../../app/common/form/FormTextArea";
+import FormSelectInput from "../../../app/common/form/FormSelectInput";
+import { categoryData } from "../../../app/api/categoryData";
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -26,58 +29,52 @@ const EventForm = ({ match, history }) => {
 
   // Form validation schema
   const validationSchema = Yup.object({
-    title: Yup.string().required("Please provide a title for the event."),
+    title: Yup.string().required("Enter a catchy title for the event."),
+    category: Yup.string().required("What category?"),
+    description: Yup.string().required("Please enter a short description."),
+    city: Yup.string().required("What city is the event in?"),
+    venue: Yup.string().required("What venue is the event in?"),
+    date: Yup.date().required("Please provide a vailid date."),
   });
-
-  // const handleFormSubmit = (e) => {
-  //   const eventData = {
-  //     id: cuid(),
-  //     hostedBy: "Gagan",
-  //     hostPhotoURL: "/assets/user.png",
-  //     attendees: [],
-  //     ...values,
-  //   };
-
-  //   selectedEvent
-  //     ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-  //     : dispatch(createEvent(eventData));
-
-  //   // After creating/updating event, send user to all events page
-  //   history.push("/events");
-  // };
 
   return (
     <Segment clearing>
-      <Header content={!selectedEvent ? "Create a new event" : "Edit event"} />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => {
+          const eventData = {
+            id: cuid(),
+            hostedBy: "Gagan",
+            hostPhotoURL: "/assets/user.png",
+            attendees: [],
+            ...values,
+          };
+
+          selectedEvent
+            ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+            : dispatch(createEvent(eventData));
+
+          // After creating/updating event, send user to all events page
+          history.push("/events");
+        }}
       >
         <Form className="ui form">
+          <Header sub color="green" content="Event Details" />
           {/* Form fields */}
-          <FormField>
-            <Field name="title" placeholder="Event Title" />
-            <ErrorMessage
-              name="title"
-              render={(error) => <Label basic color="red" content={error} />}
-            />
-          </FormField>
-          <FormField>
-            <Field name="category" placeholder="Category" />
-          </FormField>
-          <FormField>
-            <Field name="description" placeholder="Description" />
-          </FormField>
-          <FormField>
-            <Field name="city" placeholder="City" />
-          </FormField>
-          <FormField>
-            <Field name="venue" placeholder="Venue" />
-          </FormField>
-          <FormField>
-            <Field name="date" placeholder="Date" type="date" />
-          </FormField>
+          <FormInput name="title" placeholder="Event Title" />
+          <FormSelectInput
+            name="category"
+            placeholder="Category"
+            options={categoryData}
+          />
+
+          <FormTextArea name="description" placeholder="Description" rows="3" />
+
+          <Header sub color="green" content="Event Location Details" />
+          <FormInput name="city" placeholder="City" />
+          <FormInput name="venue" placeholder="Venue" />
+          <FormInput name="date" placeholder="Date" type="date" />
 
           {/* Buttons */}
           <Button type="submit" floated="right" positive content="Submit" />
