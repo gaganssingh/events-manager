@@ -5,10 +5,11 @@ import cuid from "cuid";
 import { createEvent, updateEvent } from "../eventActions";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import FormInput from "../../../app/common/form/FormInput";
+import FormTextInput from "../../../app/common/form/FormTextInput";
 import FormTextArea from "../../../app/common/form/FormTextArea";
 import FormSelectInput from "../../../app/common/form/FormSelectInput";
 import { categoryData } from "../../../app/api/categoryData";
+import FormDateInput from "../../../app/common/form/FormDateInput";
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -59,27 +60,53 @@ const EventForm = ({ match, history }) => {
           history.push("/events");
         }}
       >
-        <Form className="ui form">
-          <Header sub color="green" content="Event Details" />
-          {/* Form fields */}
-          <FormInput name="title" placeholder="Event Title" />
-          <FormSelectInput
-            name="category"
-            placeholder="Category"
-            options={categoryData}
-          />
+        {({ isSubmitting, dirty, isValid }) => (
+          <Form className="ui form">
+            <Header sub color="green" content="Event Details" />
+            {/* Form fields */}
+            <FormTextInput name="title" placeholder="Event Title" />
+            <FormSelectInput
+              name="category"
+              placeholder="Category"
+              options={categoryData}
+            />
 
-          <FormTextArea name="description" placeholder="Description" rows="3" />
+            <FormTextArea
+              name="description"
+              placeholder="Description"
+              rows="3"
+            />
 
-          <Header sub color="green" content="Event Location Details" />
-          <FormInput name="city" placeholder="City" />
-          <FormInput name="venue" placeholder="Venue" />
-          <FormInput name="date" placeholder="Date" type="date" />
+            <Header sub color="green" content="Event Location Details" />
+            <FormTextInput name="city" placeholder="City" />
+            <FormTextInput name="venue" placeholder="Venue" />
+            <FormDateInput
+              name="date"
+              placeholderText="Date"
+              time="HH:mm"
+              showTimeSelect
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm a"
+            />
 
-          {/* Buttons */}
-          <Button type="submit" floated="right" positive content="Submit" />
-          <Button as={Link} to="/events" floated="right" content="Cancel" />
-        </Form>
+            {/* Buttons */}
+            <Button
+              type="submit"
+              floated="right"
+              positive
+              content="Submit"
+              loading={isSubmitting}
+              disabled={!isValid || !dirty || isSubmitting}
+            />
+            <Button
+              as={Link}
+              to="/events"
+              floated="right"
+              content="Cancel"
+              disabled={isSubmitting}
+            />
+          </Form>
+        )}
       </Formik>
     </Segment>
   );

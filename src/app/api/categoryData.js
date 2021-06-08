@@ -1,6 +1,7 @@
 export const categoryData = [
-  { key: "drinks", text: "Drinks", value: "drinks" },
+  { key: "code", text: "Coding", value: "code" },
   { key: "culture", text: "Culture", value: "culture" },
+  { key: "drinks", text: "Drinks", value: "drinks" },
   { key: "film", text: "Film", value: "film" },
   { key: "food", text: "Food", value: "food" },
   { key: "music", text: "Music", value: "music" },
