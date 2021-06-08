@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
+import { openModal } from "../../app/common/modals/modalReducer";
 import { increment, decrement } from "./testReducer";
 
 const Sandbox = () => {
@@ -20,6 +21,14 @@ const Sandbox = () => {
         content="Increment"
         color="red"
         onClick={() => dispatch(decrement(10))}
+      />
+
+      <Button
+        content="Open Modal"
+        color="blue"
+        onClick={() =>
+          dispatch(openModal({ modalType: "TestModal", modalProps: { data } }))
+        }
       />
     </>
   );
