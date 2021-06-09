@@ -1,13 +1,15 @@
 import { useSelector } from "react-redux";
+import LoginForm from "../../../features/auth/LoginForm";
 import TestModal from "../../../features/sandbox/TestModal";
 
 const ModalManager = () => {
   const currentModal = useSelector((state) => state.modals);
-  let renderedModal;
-
   const modalLookup = {
     TestModal,
+    LoginForm,
   };
+
+  let renderedModal;
   if (currentModal) {
     const { modalType, modalProps } = currentModal;
     const ModalComponent = modalLookup[modalType];

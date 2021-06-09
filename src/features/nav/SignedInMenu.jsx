@@ -1,16 +1,26 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import { Dropdown, Image, Menu } from "semantic-ui-react";
+import { signOutUser } from "../auth/authActions";
 
-const SignedInMenu = ({ setAuthenticated }) => {
-  // HOOKS
+const SignedInMenu = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { currentUser } = useSelector((state) => state.auth);
 
-  // HELPER FUNCTIONS
-  const logoutHandler = () => setAuthenticated(false);
+  const logoutHandler = () => {
+    dispatch(signOutUser());
+    history.push("/");
+  };
 
   return (
     <Menu.Item position="right">
-      <Image avatar spaced="right" src="/assets/user.png" />
-      <Dropdown pointing="top left" text="Gagan">
+      <Image
+        avatar
+        spaced="right"
+        src={currentUser.photoURL || "/assets/user.png"}
+      />
+      <Dropdown pointing="top left" text={currentUser.email}>
         <Dropdown.Menu>
           <Dropdown.Item
             as={Link}
@@ -18,14 +28,8 @@ const SignedInMenu = ({ setAuthenticated }) => {
             text="Create Event"
             icon="plus"
           />
-          <Dropdown.Item as={Link} to="" text="My Profile" icon="user" />
-          <Dropdown.Item
-            as={Link}
-            to="/"
-            text="Sign Out"
-            icon="power"
-            onClick={logoutHandler}
-          />
+          <Dropdown.Item text="My profile" icon="user" />
+          <Dropdown.Item text="Sign out" icon="power" onClick={logoutHandler} />
         </Dropdown.Menu>
       </Dropdown>
     </Menu.Item>

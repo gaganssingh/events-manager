@@ -8,7 +8,7 @@ export const openModal = (payload) => {
   };
 };
 
-export const closeModal = (payload) => {
+export const closeModal = () => {
   return {
     type: CLOSE_MODAL,
   };
