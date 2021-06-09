@@ -47,7 +47,7 @@ const EventListItem = ({ event }) => {
         <Button
           as={Link}
           to={`/events/${event.id}`}
-          color="teal"
+          color="green"
           floated="right"
           content="View"
         />

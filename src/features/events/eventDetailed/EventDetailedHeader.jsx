@@ -48,7 +48,7 @@ const EventDetailedHeader = ({ event }) => {
 
       <Segment attached="bottom">
         <Button>Cancel My Place</Button>
-        <Button color="teal">JOIN THIS EVENT</Button>
+        <Button color="green">JOIN THIS EVENT</Button>
 
         <Button as={Link} to={`/manage/${id}`} color="orange" floated="right">
           Manage Event
