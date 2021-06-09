@@ -4,7 +4,6 @@ import {
   DELETE_EVENT,
   FETCH_EVENTS,
 } from "./eventConstants";
-import { sampleData } from "../../app/api/sampleData";
 
 const initialState = {
   events: [],
