@@ -4,11 +4,17 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import configureStore from "./app/store/configureStore";
 import App from "./app/layout/App.jsx";
-import "semantic-ui-css/semantic.min.css";
-import "./app/layout/styles.css";
 import ScrollToTop from "./app/helpers/ScrollToTop";
 
+import "semantic-ui-css/semantic.min.css";
+import "react-toastify/dist/ReactToastify.min.css";
+import "./app/layout/styles.css";
+import { loadEvents } from "./features/events/eventActions";
+
 const store = configureStore();
+
+// On App start, get events from db
+store.dispatch(loadEvents());
 
 const rootEl = document.getElementById("root");
 

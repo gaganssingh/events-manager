@@ -1,9 +1,15 @@
 import { useSelector } from "react-redux";
 import { Grid } from "semantic-ui-react";
+import LoadingSpinner from "../../../app/ui/LoadingSpinner";
 import EventList from "./EventList";
 
 const EventDashboard = (props) => {
   const { events } = useSelector((state) => state.event);
+  const { loading } = useSelector((state) => state.async);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <Grid>
