@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { Grid } from "semantic-ui-react";
+import EventFilters from "./EventFilters";
 import EventList from "./EventList";
 import EventListItemPlaceholder from "./EventListItemPlaceholder";
 
 const EventDashboard = (props) => {
   const { events } = useSelector((state) => state.event);
   const { loading } = useSelector((state) => state.async);
-  console.log(events);
 
   return (
     <Grid>
@@ -20,7 +20,7 @@ const EventDashboard = (props) => {
         <EventList events={events} />
       </Grid.Column>
       <Grid.Column width={6}>
-        <h2>Event Filters</h2>
+        <EventFilters />
       </Grid.Column>
     </Grid>
   );
