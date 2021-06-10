@@ -36,3 +36,8 @@ export const loadEvents = () => async (dispatch) => {
     dispatch(asyncActionError(error));
   }
 };
+
+export const listenToEvents = (events) => ({
+  type: FETCH_EVENTS,
+  payload: events,
+});
