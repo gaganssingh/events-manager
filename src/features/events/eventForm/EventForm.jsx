@@ -1,18 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Button, Header, Segment } from "semantic-ui-react";
-import cuid from "cuid";
-import { createEvent, updateEvent } from "../eventActions";
+import { listenToEvents } from "../eventActions";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import { toast } from "react-toastify";
+import {
+  addEventToFirestore,
+  listenToEventsFromFirestore,
+  updateEventInFirestore,
+} from "../../../app/firestore/firestoreService";
+import { categoryData } from "../../../app/api/categoryData";
+import { validationSchema } from "../../../app/helpers/formValidationSchema";
 import FormTextInput from "../../../app/common/form/FormTextInput";
 import FormTextArea from "../../../app/common/form/FormTextArea";
 import FormSelectInput from "../../../app/common/form/FormSelectInput";
-import { categoryData } from "../../../app/api/categoryData";
 import FormDateInput from "../../../app/common/form/FormDateInput";
+import useFirestoreDoc from "../../../app/hooks/useFirestoreDoc";
+import LoadingSpinner from "../../../app/ui/LoadingSpinner";
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
 
   const eventId = match.params.id;
   const selectedEvent = useSelector((state) =>
@@ -23,44 +31,54 @@ const EventForm = ({ match, history }) => {
     title: "",
     category: "",
     description: "",
-    city: "",
-    venue: "",
+    city: {
+      address: "",
+      latLng: null,
+    },
+    venue: {
+      address: "",
+      latLng: null,
+    },
     date: "",
   };
 
-  // Form validation schema
-  const validationSchema = Yup.object({
-    title: Yup.string().required("Enter a catchy title for the event."),
-    category: Yup.string().required("What category?"),
-    description: Yup.string().required("Please enter a short description."),
-    city: Yup.string().required("What city is the event in?"),
-    venue: Yup.string().required("What venue is the event in?"),
-    date: Yup.date().required("Please provide a vailid date."),
+  // Fetch single event's data from db to pre-fill the form
+  useFirestoreDoc({
+    query: () => listenToEventsFromFirestore(eventId),
+    data: (event) => dispatch(listenToEvents([event])),
+    dependencies: [eventId, dispatch],
+    shouldExecute: !!eventId, // If no event found, returns false. For "Create Event"
   });
+
+  if (loading) {
+    return <LoadingSpinner content="Loading event..." />;
+  }
+
+  if (error) {
+    return <Redirect to="/error" />;
+  }
 
   return (
     <Segment clearing>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          const eventData = {
-            id: cuid(),
-            hostedBy: "Gagan",
-            hostPhotoURL: "/assets/user.png",
-            attendees: [],
-            ...values,
-          };
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            selectedEvent
+              ? await updateEventInFirestore(values)
+              : await addEventToFirestore(values);
 
-          selectedEvent
-            ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-            : dispatch(createEvent(eventData));
-
-          // After creating/updating event, send user to all events page
-          history.push("/events");
+            // After creating/updating event, send user to all events page
+            setSubmitting(false);
+            history.push("/events");
+          } catch (error) {
+            toast.error(error.message);
+            setSubmitting(false);
+          }
         }}
       >
-        {({ isSubmitting, dirty, isValid }) => (
+        {({ isSubmitting, dirty, isValid, values }) => (
           <Form className="ui form">
             <Header sub color="green" content="Event Details" />
             {/* Form fields */}
@@ -79,7 +97,11 @@ const EventForm = ({ match, history }) => {
 
             <Header sub color="green" content="Event Location Details" />
             <FormTextInput name="city" placeholder="City" />
-            <FormTextInput name="venue" placeholder="Venue" />
+            <FormTextInput
+              name="venue"
+              placeholder="Venue"
+              disabled={!values.city.latLng}
+            />
             <FormDateInput
               name="date"
               placeholderText="Date"

@@ -7,12 +7,18 @@ import {
   asyncActionStart,
 } from "../store/asyncReducer";
 
-const useFirestoreDoc = ({ query, data, dependencies }) => {
+const useFirestoreDoc = ({
+  query,
+  data,
+  dependencies,
+  shouldExecute = true,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(asyncActionStart());
+    if (!shouldExecute) return;
 
+    dispatch(asyncActionStart());
     const unsubscribe = query().onSnapshot(
       (snapshot) => {
         // If event with queried id doesn't exist
