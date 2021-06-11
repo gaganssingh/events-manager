@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "semantic-ui-react";
+import { Redirect } from "react-router-dom";
 import { listenToEventFromFirestore } from "../../../app/firestore/firestoreService";
 import useFirestoreDoc from "../../../app/hooks/useFirestoreDoc";
 import LoadingSpinner from "../../../app/ui/LoadingSpinner";
@@ -11,7 +12,7 @@ import EventDetailedSidebar from "./EventDetailedSidebar";
 
 const EventDetailedPage = ({ match }) => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.async);
+  const { loading, error } = useSelector((state) => state.async);
 
   const eventId = match.params.id;
   const event = useSelector((state) =>
@@ -25,8 +26,12 @@ const EventDetailedPage = ({ match }) => {
     dependencies: [eventId, dispatch],
   });
 
-  if (loading || !event) {
+  if (loading || (!event && !error)) {
     return <LoadingSpinner content="Loading event..." />;
+  }
+
+  if (error) {
+    return <Redirect to="/error" />;
   }
 
   return (
