@@ -52,5 +52,12 @@ export const updateEventInFirestore = (event) =>
   db.collection("events").doc(event.id).update(event);
 
 // Delete event by id
+// TO BE REMOVED BEFORE APP PUNLISHING
 export const deleteEventInFirestore = (id) =>
   db.collection("events").doc(id).delete();
+
+// Mark event as CANCELLED
+export const cancelEventToggle = (event) =>
+  db.collection("events").doc(event.id).update({
+    isCancelled: !event.isCancelled,
+  });
